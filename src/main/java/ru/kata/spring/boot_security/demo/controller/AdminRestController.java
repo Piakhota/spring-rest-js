@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -21,39 +22,35 @@ public class AdminRestController {
     }
 
     @GetMapping("/users")
-    @ResponseStatus(HttpStatus.OK)
-    public List<User> getAll() {
-        return userService.getAll();
+    public ResponseEntity<List<User>> getAll() {
+        return new ResponseEntity<>(userService.getAll(),HttpStatus.OK);
     }
 
     @GetMapping("/users/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public User getById(@PathVariable("id") Long id) {
-        return userService.getById(id);
+    public ResponseEntity<User> getById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(userService.getById(id),HttpStatus.OK);
     }
 
     @GetMapping("/user")
-    @ResponseStatus(HttpStatus.OK)
-    public User getCurrent(Principal principal) {
-        return (User) userService.loadUserByUsername(principal.getName());
+    public ResponseEntity<User> getByUsername(Principal principal) {
+        return new ResponseEntity<>((User) userService.loadUserByUsername(principal.getName()),HttpStatus.OK);
     }
 
     @PostMapping("/users")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody User user) {
+    public ResponseEntity<?> create(@RequestBody User user) {
         userService.save(user);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/users/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void update(@RequestBody User user) {
+    public ResponseEntity<?> update(@RequestBody User user) {
         userService.save(user);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public String delete(@PathVariable("id") Long id) {
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         userService.delete(id);
-        return "User with ID = " + id + " was deleted";
+        return new ResponseEntity<>("User with ID = " + id + " was deleted", HttpStatus.OK);
     }
 }
