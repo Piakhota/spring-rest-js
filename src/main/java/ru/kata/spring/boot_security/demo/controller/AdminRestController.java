@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 public class AdminRestController {
 
     private final UserService userService;
@@ -21,36 +20,31 @@ public class AdminRestController {
         this.userService = userService;
     }
 
-    @GetMapping("/users")
+    @GetMapping
     public ResponseEntity<List<User>> getAll() {
-        return new ResponseEntity<>(userService.getAll(),HttpStatus.OK);
+        return ResponseEntity.ok().body(userService.getAll());
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(userService.getById(id),HttpStatus.OK);
+        return ResponseEntity.ok().body(userService.getById(id));
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<User> getByUsername(Principal principal) {
-        return new ResponseEntity<>((User) userService.loadUserByUsername(principal.getName()),HttpStatus.OK);
-    }
-
-    @PostMapping("/users")
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody User user) {
         userService.save(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestBody User user) {
         userService.save(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         userService.delete(id);
-        return new ResponseEntity<>("User with ID = " + id + " was deleted", HttpStatus.OK);
+        return ResponseEntity.ok().body("User with ID = " + id + " was deleted");
     }
 }

@@ -47,6 +47,17 @@
 <body>
 <main>
     <nav class="navbar navbar-expand-xl navbar-dark bg-dark">
+<!--        <ul class="navbar-nav me-auto mb-2 mb-xl-0">-->
+<!--            <li class="nav-item">-->
+<!--                <span class="navbar-text" style="font-weight:bold;" th:text="${#authentication.principal.username}"/>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <span class="navbar-text">&nbsp;with roles:&nbsp;</span>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <span class="navbar-text" th:each="role: ${#authentication.principal.authorities}" th:text="${role.name.replaceFirst('ROLE_', '') + ' '}"/>-->
+<!--            </li>-->
+<!--        </ul>-->
         <div class="container-fluid">
             <div class="collapse navbar-collapse show" id="navbarDark">
                 <span class="navbar-text" id="info"></span>
